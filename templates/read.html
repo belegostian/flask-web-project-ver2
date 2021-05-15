@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block title %}資料庫讀取{% endblock %}
+
+{% block navbar %}
+<header style="background-color: rgb(158, 216, 255)">
+    {{super() }}
+</header>
+{% endblock %}
+
+{% block page_content %}
+<table class="table table-striped text-center my-5">
+    <thead>
+        <tr>
+            <th>帳號</th>
+            <th>密碼</th>
+            <th>聯絡人姓名</th>
+            <th>聯絡人信箱</th>
+            <th>實驗室</th>
+            <th>分機號碼</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in context %}
+        <tr>
+            <td>{{ i.帳號 }}</td>
+            <td>{{ i.密碼 }}</td>
+            <td>{{ i.聯絡人姓名 }}</td>
+            <td>{{ i.聯絡人信箱 }}</td>
+            <td>{{ i.實驗室 }}</td>
+            <td>{{ i.分機號碼 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

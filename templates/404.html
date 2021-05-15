@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}頁面不存在{% endblock %}
+
+{% block navbar %}
+<header style="background-color: rgb(158, 216, 255)">
+    {{super() }}
+</header>
+{% endblock %}
+
+{% block page_content %}
+<div class="container">
+    <div class="row">
+        <div class="col-6 mx-auto my-5 py-4 rounded-3 text-center border border-primary">
+            <h4>您訪查的頁面不存在</h4>
+            <p>若您是手動輸入網址，請確認拼寫是否正確</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
