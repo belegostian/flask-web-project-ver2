@@ -1,7 +1,9 @@
-{% extends "layout.html" %}
+{% extends 'layout.html' %}
+<!--
 {% import "bootstrap/wtf.html" as wtf %}
+-->
 
-{% block title %}註冊{% endblock %}
+{% block title %}資料庫讀取{% endblock %}
 
 {% block navbar %}
 <header style="background-color: rgb(158, 216, 255)">
@@ -13,12 +15,15 @@
 <div class="container">
     <div class="row">
         <div class="col-6 mx-auto mt-5 mb-2 py-4 text-center">
-            <h3>Create your account!</h3>
+            <h3>Update account</h3>
         </div>
     </div>
     <div class="row">
         <div class="col-4 m-auto p-5 rounded-3 border border-primary">
-            {{ wtf.quick_form(form) }}  <!--快速轉譯表單，日後可以精緻化-->
+            {{ wtf.quick_form(form) }}
+            <!--
+                透過 {{ account }} 形式帶入資料，可以考慮後面放入預設
+            -->
         </div>
     </div>
 </div>

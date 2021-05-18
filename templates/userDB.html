@@ -18,6 +18,7 @@
             <th>聯絡人信箱</th>
             <th>實驗室</th>
             <th>分機號碼</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -29,6 +30,7 @@
             <td>{{ i.聯絡人信箱 }}</td>
             <td>{{ i.實驗室 }}</td>
             <td>{{ i.分機號碼 }}</td>
+            <td><a href= "userDB/{{ i._id }}" class="btn" role="button" style="background-color: rgb(107, 141, 255)">Update</a></td>
         </tr>
         {% endfor %}
     </tbody>

@@ -14,7 +14,12 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'   #暫時固定密鑰，之後要改放環境變數
 app.config["MONGO_URI"] = "mongodb://localhost:27017/Lab_Equipment_Management"    #指定DB
 mongo = PyMongo(app)
-User = mongo.db.User    #指定collection
+
+#指定collection
+User = mongo.db.User
+Record = mongo.db.Record
+Lab_Equ = mongo.db.Lab_Equ
+
 bootstrap = Bootstrap(app)  #支援前端排版
 moment = Moment(app)    #時間本地化
 
@@ -34,6 +39,14 @@ class NewAccount(FlaskForm):    #之後可以加入重複輸入驗證；信箱�
     telephone = StringField('Telephone', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+class UpDateAccount(FlaskForm):
+    account = StringField('Account', validators=[DataRequired()])
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    lab = StringField('Lab', validators=[DataRequired()])
+    telephone = StringField('Telephone', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
 #__路由___________________________________________________________________________
 @app.route('/')
 def index():
@@ -42,12 +55,6 @@ def index():
 
 @app.route('/registrate', methods=['GET', 'POST'])    #暫時性註冊表單URL
 def Registrate():
-    account = None
-    password = None
-    name = None
-    email = None
-    lab = None
-    telephone = None
     form = NewAccount()    #不能用名稱 "registrate"，原因未知
     if form.validate_on_submit():
         session['account'] = form.account.data
@@ -69,8 +76,6 @@ def Registrate():
 
 @app.route('/login', methods=['GET', 'POST'])    #暫時性登入表單URL
 def login():
-    account = None
-    password = None
     form = LogIn()
     if form.validate_on_submit():
         session['account'] = form.account.data
@@ -84,10 +89,32 @@ def login():
     return render_template('login.html', form=form, account=session.get('account'), password=session.get('password'))
 
 
-@app.route('/read')   #暫時性檢視資料庫URL
-def read():
+####################################___test___####################################
+
+@app.route('/userDB', methods=['GET', 'POST'])
+def userDB():
     users = User.find()
-    return render_template('read.html',context=users)
+    return render_template('userDB.html', context=users)
+
+
+@app.route('/userDB/<id>',methods=['POST','GET'])
+def userDB_update(id):
+    filter = {'_id':ObjectId(id)}  
+    user = User.find_one(filter)
+    form = UpDateAccount()
+    if form.validate_on_submit():
+        session['account'] = form.account.data
+        session['name'] = form.name.data
+        session['email'] = form.email.data
+        session['lab'] = form.lab.data
+        session['telephone'] = form.telephone.data
+        update = {'$set':{'帳號':session.get('account'), '聯絡人姓名':session.get('name'),
+                '聯絡人信箱':session.get('email'),'實驗室':session.get('lab'),'分機號碼':session.get('telephone')}}
+        User.update_one(filter,update)
+        return redirect(url_for('userDB'))
+    return render_template('userDBform.html', form=form, context=user, account=user['帳號'])  #嘗試使用 context 取代 session elements
+
+####################################___test___####################################
 
 
 @app.errorhandler(404)
