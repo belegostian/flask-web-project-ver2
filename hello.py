@@ -97,7 +97,7 @@ def userDB():
     return render_template('userDB.html', context=users)
 
 
-@app.route('/userDB/<id>',methods=['POST','GET'])
+@app.route('/userDB_update/<id>',methods=['POST','GET'])
 def userDB_update(id):
     filter = {'_id':ObjectId(id)}  
     user = User.find_one(filter)
@@ -114,6 +114,12 @@ def userDB_update(id):
         return redirect(url_for('userDB'))
     return render_template('userDBform.html', form=form, context=user, account=user['帳號'])  #嘗試使用 context 取代 session elements
 
+
+@app.route('/userDB_delete/<id>',methods=['POST','GET'])  #功能路由，無匹配的靜態網頁
+def userDB_delete(id):
+    filter = {'_id':ObjectId(id)}
+    User.delete_one(filter)
+    return redirect(url_for('userDB'))
 ####################################___test___####################################
 
 
