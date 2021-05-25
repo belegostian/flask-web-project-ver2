@@ -1,6 +1,7 @@
 {% extends "layout.html" %} 
+{% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}智慧機械與機電控制實驗室{% endblock %} 
+{% block title %}智慧機械與機電控制實驗室{% endblock %}
 
 {% block navbar %}
 <header style="background-color: rgb(255, 255, 255)">
@@ -10,14 +11,24 @@
     style="background-color: rgb(158, 216, 255)"
     >
         <div class="container-fluid mx-5">
-                <a class="navbar-brand" href="index.html">Home</a>
+            {% if name %}
+            <a class="navbar-brand" href="/{{ name }}">Home</a>
+            {% else %}
+            <a class="navbar-brand" href="/">Home</a>
+            {% endif %}
             <div class="navbar-collapse">
                 <ul class="navbar-nav me-auto mb-0">
+                    {% if name %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="record.html">record</a>
+                        <a class="nav-link active" aria-current="page" href="/record/{{ name }}">record</a>
                     </li>
+                    {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="log_in.html">personal info.</a>
+                        {% if name %}
+                        <a class="nav-link active" aria-current="page" href="">{{ name }}</a>
+                        {% else %}
+                        <a class="nav-link active" aria-current="page" href="/login">Log in</a>
+                        {% endif %}
                     </li>
                 </ul>
                 <form class="d-flex">
@@ -38,7 +49,8 @@
 {% block page_content %}
 <div class="container p-3">
     <div class="row">
-        <aside class="col-2">
+        <!--內容分類功能尚待定義-->
+        <aside class="pt-4 ps-0 col-2">
             <div>
                 <ul class="list-group mx-3">
                     <li class="list-group-item">product type 1</li>
@@ -53,21 +65,26 @@
         </aside>
         <div id="content" div class="col-10">
             <div class="row">
+                <!--產品卡模板-->
+                <h4 class="pt-1 pb-0 m-3">可供預約</h4>
+                <hr>
+                {% for i in equ1 %}
                 <div div class="col-4 mb-3">
                     <div class="card">
                         <img src="https://picsum.photos/400/300.jpg" class="card-img-top img-fluid" alt="..."/>
                         <div class="card-body">
-                            <h5 class="card-title">product 1</h5>
-                            <p class="card-text">Some introduction ...</p>
-                            <button type="button" class="btn" style="background-color: rgb(218, 240, 253)" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <h5 class="card-title">{{ i.財物名稱 }}</h5>
+                            <p class="card-text">some discription...</p>
+                            <!--尚未開通狀態-->
+                            <button type="button" class="btn" style="background-color: rgb(218, 240, 253)" data-bs-toggle="modal" data-bs-target="#edit{{ i._id }}">
                                 Check out details
                             </button>
-                        </div>
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="edit{{ i._id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <!--彈出視窗產品卡模板-->
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">product 1</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">{{ i.財物名稱 }}</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -88,20 +105,20 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <th scope="row">brand</th>
-                                                                <td>Brand 1</td>
+                                                                <th scope="row">廠牌</th>
+                                                                <td>{{ i.廠牌 }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <th scope="row">type</th>
-                                                                <td>Type 1</td>
+                                                                <th scope="row">型式</th>
+                                                                <td>{{ i.型式 }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <th scope="row">ID</th>
-                                                                <td>12345678</td>
+                                                                <th scope="row">財物編號</th>
+                                                                <td>{{ i.財物編號 }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <th scope="row">status</th>
-                                                                <td>booked</td>
+                                                                <th scope="row">狀態</th>
+                                                                <td>{{ i.狀態 }}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -110,194 +127,93 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                                            Add to list
-                                        </button>
+                                        {% if name %}
+                                        <form action="/rent/{{ i._id }}" method="POST">
+                                            {{ form.hidden_tag() }}
+                                            {{ form.csrt_token }}
+                                            {{ form.date.label }} {{form.date(type="date")}}
+                                            {{ form.submit() }}
+                                        </form>
+                                        {% endif %}
                                     </div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-4 mb-3">
+                {% endfor %}
+                <h4 class="pt-4 pb-0 m-3">已出借</h4>
+                <hr>
+                {% for i in equ2 %}
+                <div div class="col-4 mb-3">
                     <div class="card">
-                        <img
-                            src="https://picsum.photos/400/300.jpg"
-                            class="card-img-top img-fluid"
-                            alt="..."
-                        />
+                        <img src="https://picsum.photos/400/300.jpg" class="card-img-top img-fluid" alt="..."/>
                         <div class="card-body">
-                            <h5 class="card-title">product 1</h5>
-                            <p class="card-text">Some introduction ...</p>
-                            <button
-                            type="button"
-                            class="btn"
-                            style="background-color: rgb(218, 240, 253)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            >
-                            Check out details
+                            <h5 class="card-title">{{ i.財物名稱 }}</h5>
+                            <p class="card-text">some discription...</p>
+                            <!--尚未開通狀態-->
+                            <button type="button" class="btn" style="background-color: rgb(218, 240, 253)" data-bs-toggle="modal" data-bs-target="#edit{{ i._id }}">
+                                Check out details
                             </button>
+                            <div class="modal fade" id="edit{{ i._id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <!--彈出視窗產品卡模板-->
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">{{ i.財物名稱 }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <div class="row d-flex justify-content-center">
+                                                <div class="col-6">
+                                                    <img src="https://picsum.photos/500/500.jpg" class="card-img-top img-fluid" alt="..."/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col"></th>
+                                                                <th scope="col"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">廠牌</th>
+                                                                <td>{{ i.廠牌 }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">型式</th>
+                                                                <td>{{ i.型式 }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">財物編號</th>
+                                                                <td>{{ i.財物編號 }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">狀態</th>
+                                                                <td>{{ i.狀態 }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-4 mb-3">
-                    <div class="card">
-                        <img
-                            src="https://picsum.photos/400/300.jpg"
-                            class="card-img-top img-fluid"
-                            alt="..."
-                        />
-                        <div class="card-body">
-                            <h5 class="card-title">product 1</h5>
-                            <p class="card-text">Some introduction ...</p>
-                            <button
-                            type="button"
-                            class="btn"
-                            style="background-color: rgb(218, 240, 253)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            >
-                            Check out details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 mb-3">
-                    <div class="card">
-                        <img
-                            src="https://picsum.photos/400/300.jpg"
-                            class="card-img-top img-fluid"
-                            alt="..."
-                        />
-                        <div class="card-body">
-                            <h5 class="card-title">product 1</h5>
-                            <p class="card-text">Some introduction ...</p>
-                            <button
-                            type="button"
-                            class="btn"
-                            style="background-color: rgb(218, 240, 253)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            >
-                            Check out details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 mb-3">
-                    <div class="card">
-                        <img
-                            src="https://picsum.photos/400/300.jpg"
-                            class="card-img-top img-fluid"
-                            alt="..."
-                        />
-                        <div class="card-body">
-                            <h5 class="card-title">product 1</h5>
-                            <p class="card-text">Some introduction ...</p>
-                            <button
-                            type="button"
-                            class="btn"
-                            style="background-color: rgb(218, 240, 253)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            >
-                            Check out details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 mb-3">
-                    <div class="card">
-                        <img
-                            src="https://picsum.photos/400/300.jpg"
-                            class="card-img-top img-fluid"
-                            alt="..."
-                        />
-                        <div class="card-body">
-                            <h5 class="card-title">product 1</h5>
-                            <p class="card-text">Some introduction ...</p>
-                            <button
-                            type="button"
-                            class="btn"
-                            style="background-color: rgb(218, 240, 253)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            >
-                            Check out details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 mb-3">
-                    <div class="card">
-                        <img
-                            src="https://picsum.photos/400/300.jpg"
-                            class="card-img-top img-fluid"
-                            alt="..."
-                        />
-                        <div class="card-body">
-                            <h5 class="card-title">product 1</h5>
-                            <p class="card-text">Some introduction ...</p>
-                            <button
-                            type="button"
-                            class="btn"
-                            style="background-color: rgb(218, 240, 253)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            >
-                            Check out details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 mb-3">
-                    <div class="card">
-                        <img
-                            src="https://picsum.photos/400/300.jpg"
-                            class="card-img-top img-fluid"
-                            alt="..."
-                        />
-                        <div class="card-body">
-                            <h5 class="card-title">product 1</h5>
-                            <p class="card-text">Some introduction ...</p>
-                            <button
-                            type="button"
-                            class="btn"
-                            style="background-color: rgb(218, 240, 253)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            >
-                            Check out details
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 mb-3">
-                    <div class="card">
-                        <img
-                            src="https://picsum.photos/400/300.jpg"
-                            class="card-img-top img-fluid"
-                            alt="..."
-                        />
-                        <div class="card-body">
-                            <h5 class="card-title">product 1</h5>
-                            <p class="card-text">Some introduction ...</p>
-                            <button
-                            type="button"
-                            class="btn"
-                            style="background-color: rgb(218, 240, 253)"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            >
-                            Check out details
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
