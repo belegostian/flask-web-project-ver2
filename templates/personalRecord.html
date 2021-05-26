@@ -11,33 +11,25 @@
     >
         <div class="container-fluid mx-5">
             {% if name %}
-            <a class="navbar-brand" href="/{{ name }}">Home</a>
+            <a class="navbar-brand" href="/{{ name }}">首頁</a>
             {% else %}
-            <a class="navbar-brand" href="/">Home</a>
+            <a class="navbar-brand" href="/">首頁</a>
             {% endif %}
             <div class="navbar-collapse">
-                <ul class="navbar-nav me-auto mb-0">
+                <ul class="navbar-nav ms-auto mb-0 d-flex justify-content-end">
                     {% if name %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/record/{{ name }}">record</a>
+                        <a class="nav-link active" aria-current="page" href="/record/{{ name }}">借用紀錄</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
                         {% if name %}
-                        <a class="nav-link active" aria-current="page" href="">{{ name }}</a>
+                        <a class="nav-link active" aria-current="page" href="/personal_info/{{ name }}">{{ name }}</a>
                         {% else %}
-                        <a class="nav-link active" aria-current="page" href="/login">Log in</a>
+                        <a class="nav-link active" aria-current="page" href="/login">登入</a>
                         {% endif %}
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input
-                    class="form-control me-2"
-                    type="search"
-                    placeholder="Search"
-                    />
-                    <button class="btn" type="submit">Search</button>
-                </form>
             </div>
         </div>
     </nav>
@@ -53,23 +45,25 @@
             <table class="table table-striped text-center">
                 <thead>
                     <tr>
-                        <th>借用人</th>
+                        <th>財物編號</th>
                         <th>財物名稱</th>
                         <th>廠牌</th>
                         <th>型式</th>
                         <th>租借日期</th>
                         <th>歸還日期</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for i in recent_record %}
                     <tr>
-                        <td>{{ i.借用人 }}</td>
+                        <td>{{ i.財物編號 }}</td>
                         <td>{{ i.財物名稱 }}</td>
                         <td>{{ i.廠牌 }}</td>
                         <td>{{ i.型式 }}</td>
                         <td>{{ i.租借日期 }}</td>
                         <td>{{ i.歸還日期 }}</td>
+                        <td><a href= "/hand_in/{{ i.財物編號 }}" class="btn" role="button" style="background-color: rgb(119, 255, 107)">歸還</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -82,7 +76,7 @@
             <table class="table table-striped text-center">
                 <thead>
                     <tr>
-                        <th>借用人</th>
+                        <th>財物編號</th>
                         <th>財物名稱</th>
                         <th>廠牌</th>
                         <th>型式</th>
@@ -93,7 +87,7 @@
                 <tbody>
                     {% for i in passed_record %}
                     <tr>
-                        <td>{{ i.借用人 }}</td>
+                        <td>{{ i.財物編號 }}</td>
                         <td>{{ i.財物名稱 }}</td>
                         <td>{{ i.廠牌 }}</td>
                         <td>{{ i.型式 }}</td>

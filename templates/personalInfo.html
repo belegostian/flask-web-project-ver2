@@ -1,0 +1,66 @@
+{% extends "layout.html" %} 
+
+{% block title %}智慧機械與機電控制實驗室{% endblock %} 
+
+{% block navbar %}
+<header style="background-color: rgb(255, 255, 255)">
+    {{super() }}
+    <nav
+    class="navbar navbar-expand navbar-light"
+    style="background-color: rgb(158, 216, 255)"
+    >
+        <div class="container-fluid mx-5">
+            {% if name %}
+            <a class="navbar-brand" href="/{{ name }}">首頁</a>
+            {% else %}
+            <a class="navbar-brand" href="/">首頁</a>
+            {% endif %}
+            <div class="navbar-collapse">
+                <ul class="navbar-nav ms-auto mb-0 d-flex justify-content-end">
+                    {% if name %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/record/{{ name }}">借用紀錄</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        {% if name %}
+                        <a class="nav-link active" aria-current="page" href="/personal_info/{{ name }}">{{ name }}</a>
+                        {% else %}
+                        <a class="nav-link active" aria-current="page" href="/login">登入</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+{% endblock %}
+
+{% block page_content %}
+<table class="table table-striped text-center my-5">
+    <thead>
+        <tr>
+            <th>帳號</th>
+            <th>密碼</th>
+            <th>聯絡人姓名</th>
+            <th>聯絡人信箱</th>
+            <th>實驗室</th>
+            <th>分機號碼</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ context.帳號 }}</td>
+            <td>{{ context.密碼 }}</td>
+            <td>{{ context.聯絡人姓名 }}</td>
+            <td>{{ context.聯絡人信箱 }}</td>
+            <td>{{ context.實驗室 }}</td>
+            <td>{{ context.分機號碼 }}</td>
+            <td><a href= "../userDB_update/{{ context._id }}" class="btn" role="button" style="background-color: rgb(119, 255, 107)">更新</a></td>
+            <td><a href= "/logout" class="btn" role="button" style="background-color: rgb(255, 107, 107)">登出</a></td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

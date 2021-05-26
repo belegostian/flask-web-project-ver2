@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+
+{% block title %}資料庫讀取{% endblock %}
+
+{% block navbar %}
+<header style="background-color: rgb(255, 255, 255)">
+    {{super() }}
+    <nav class="site-header sticky-top py-1 px-5" style="background-color: rgb(158, 216, 255)">
+        <div class="container d-flex flex-column flex-md-row justify-content-between">
+            <a class="text-dark nav-link active" aria-current="page" href="/userDB">使用者資料</a>
+            <a class="text-dark nav-link active" aria-current="page" href="/recordDB">借用紀錄</a>
+            <a class="text-dark nav-link active" aria-current="page" href="/lab_equDB">財產資料</a>
+        </div>
+    </nav>
+</header>
+{% endblock %}
+
+{% block page_content %}
+{% for i in context %}
+<table class="table table-striped text-center my-5">
+    <thead>
+        <tr>
+            <th>財物編號</th>
+            <th>校號</th>
+            <th>附件</th>
+            <th>財物名稱</th>
+            <th>廠牌</th>
+            <th>型式</th>
+            <th>單價</th>
+            <th>增加單號</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ i.財物編號 }}</td>
+            <td>{{ i.校號 }}</td>
+            <td>{{ i.附件 }}</td>
+            <td>{{ i.財物名稱 }}</td>
+            <td>{{ i.廠牌 }}</td>
+            <td>{{ i.型式 }}</td>
+            <td>{{ i.單價 }}</td>
+            <td>{{ i.增加單號 }}</td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th>取得日期</th>
+            <th>年限</th>
+            <th>管理人</th>
+            <th>存置地點</th>
+            <th>保管組備註</th>
+            <th>報銷狀態</th>
+            <th>財物條碼</th>
+            <th>狀態</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ i.取得日期 }}</td>
+            <td>{{ i.年限 }}</td>
+            <td>{{ i.管理人 }}</td>
+            <td>{{ i.存置地點 }}</td>
+            <td>{{ i.保管組備註 }}</td>
+            <td>{{ i.報銷狀態 }}</td>
+            <td>{{ i.財物條碼 }}</td>
+            <td>{{ i.狀態 }}</td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href= "lab_equDB_update/{{ i._id }}" class="btn" role="button" style="background-color: rgb(119, 255, 107)">更新</a></td>
+            <td><a href= "lab_equDB_delete/{{ i._id }}" class="btn" role="button" style="background-color: rgb(255, 107, 107)">刪除</a></td>
+        </tr>
+    </tbody>
+</table>
+{% endfor %}
+{% endblock %}

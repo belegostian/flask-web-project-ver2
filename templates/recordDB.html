@@ -19,27 +19,31 @@
 <table class="table table-striped text-center my-5">
     <thead>
         <tr>
-            <th>帳號</th>
-            <th>密碼</th>
-            <th>聯絡人姓名</th>
-            <th>聯絡人信箱</th>
-            <th>實驗室</th>
-            <th>分機號碼</th>
-            <th></th>
+            <th>狀態</th>
+            <th>借用人</th>
+            <th>財物編號</th>
+            <th>財物名稱</th>
+            <th>廠牌</th>
+            <th>型式</th>
+            <th>財物條碼</th>
+            <th>租借日期</th>
+            <th>歸還日期</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         {% for i in context %}
         <tr>
-            <td>{{ i.帳號 }}</td>
-            <td>{{ i.密碼 }}</td>
-            <td>{{ i.聯絡人姓名 }}</td>
-            <td>{{ i.聯絡人信箱 }}</td>
-            <td>{{ i.實驗室 }}</td>
-            <td>{{ i.分機號碼 }}</td>
-            <td><a href= "userDB_update/{{ i._id }}" class="btn" role="button" style="background-color: rgb(119, 255, 107)">更新</a></td>
-            <td><a href= "userDB_delete/{{ i._id }}" class="btn" role="button" style="background-color: rgb(255, 107, 107)">delete</a></td>
+            <td>{{ i.狀態 }}</td>
+            <td>{{ i.借用人 }}</td>
+            <td>{{ i.財物編號 }}</td>
+            <td>{{ i.財物名稱 }}</td>
+            <td>{{ i.廠牌 }}</td>
+            <td>{{ i.型式 }}</td>
+            <td>{{ i.財物條碼 }}</td>
+            <td>{{ i.租借日期 }}</td>
+            <td>{{ i.歸還日期 }}</td>
+            <td><a href= "recordDB_delete/{{ i._id }}" class="btn" role="button" style="background-color: rgb(255, 107, 107)">刪除</a></td>
         </tr>
         {% endfor %}
     </tbody>

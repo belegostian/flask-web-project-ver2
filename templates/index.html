@@ -12,33 +12,25 @@
     >
         <div class="container-fluid mx-5">
             {% if name %}
-            <a class="navbar-brand" href="/{{ name }}">Home</a>
+            <a class="navbar-brand" href="/{{ name }}">首頁</a>
             {% else %}
-            <a class="navbar-brand" href="/">Home</a>
+            <a class="navbar-brand" href="/">首頁</a>
             {% endif %}
             <div class="navbar-collapse">
-                <ul class="navbar-nav me-auto mb-0">
+                <ul class="navbar-nav ms-auto mb-0 d-flex justify-content-end">
                     {% if name %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/record/{{ name }}">record</a>
+                        <a class="nav-link active" aria-current="page" href="/record/{{ name }}">借用紀錄</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
                         {% if name %}
-                        <a class="nav-link active" aria-current="page" href="">{{ name }}</a>
+                        <a class="nav-link active" aria-current="page" href="/personal_info/{{ name }}">{{ name }}</a>
                         {% else %}
-                        <a class="nav-link active" aria-current="page" href="/login">Log in</a>
+                        <a class="nav-link active" aria-current="page" href="/login">登入</a>
                         {% endif %}
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input
-                    class="form-control me-2"
-                    type="search"
-                    placeholder="Search"
-                    />
-                    <button class="btn" type="submit">Search</button>
-                </form>
             </div>
         </div>
     </nav>
@@ -48,21 +40,7 @@
 
 {% block page_content %}
 <div class="container p-3">
-    <div class="row">
-        <!--內容分類功能尚待定義-->
-        <aside class="pt-4 ps-0 col-2">
-            <div>
-                <ul class="list-group mx-3">
-                    <li class="list-group-item">product type 1</li>
-                    <li class="list-group-item">product type 2</li>
-                    <li class="list-group-item">product type 3</li>
-                    <li class="list-group-item">product type 4</li>
-                    <li class="list-group-item">product type 5</li>
-                    <li class="list-group-item">product type 6</li>
-                    <li class="list-group-item">product type 7</li>
-                </ul>
-            </div>
-        </aside>
+    <div class="row d-flex justify-content-center ">
         <div id="content" div class="col-10">
             <div class="row">
                 <!--產品卡模板-->
@@ -128,6 +106,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         {% if name %}
+                                        <!--wtf quick form 不支援 date picker-->
                                         <form action="/rent/{{ i._id }}" method="POST">
                                             {{ form.hidden_tag() }}
                                             {{ form.csrt_token }}
@@ -152,7 +131,6 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ i.財物名稱 }}</h5>
                             <p class="card-text">some discription...</p>
-                            <!--尚未開通狀態-->
                             <button type="button" class="btn" style="background-color: rgb(218, 240, 253)" data-bs-toggle="modal" data-bs-target="#edit{{ i._id }}">
                                 Check out details
                             </button>
